@@ -136,8 +136,6 @@ homes[,facvar] <- lapply(homes[,facvar], factor)
 table(homes$hsdistrict)
 
 # sale date should be date
-# "%m/%d/%Y" = date pattern
-# see help(strptime)
 homes$lastsaledate1 <- lubridate::mdy(homes$lastsaledate1)
 
 # Create month sold column
