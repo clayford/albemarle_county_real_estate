@@ -52,6 +52,10 @@ parcel_level <- read.csv("GIS_View_Redacted_ParcelInfo.txt",
 other_parcel <- read.csv("CityView_View_OtherParcelCharacteristics.txt", 
                          na.strings = c("NULL", "N/A"))
 
+file.remove("CityView_View_OtherParcelCharacteristics.txt")
+file.remove("GIS_CardLevelData_new.txt")
+file.remove("GIS_View_Redacted_ParcelInfo.txt")
+
 # card_level list of variables to keep
 card_vars <- c("TMP", "CardType", "YearBuilt", "YearRemodeled", 
                "UseCode", "Condition", "FinSqFt", "Cooling", 
@@ -173,10 +177,10 @@ homes <- subset(homes, !is.na(cooling))
 table(homes$fp_open, useNA = "ifany")
 homes$fp <- ifelse(homes$fp_open > 0, 1, 0)
 homes$fp <- factor(homes$fp, labels = c("No", "Yes"))
-summary(homes$fp)
 
 # drop rows with missing fp
 homes <- subset(homes, !is.na(fp))
+summary(homes$fp)
 
 # drop selected variables
 homes$parcelid <- NULL
@@ -201,6 +205,7 @@ saveRDS(homes, file = paste0("albemarle_homes_", date, ".rds"))
 write.csv(homes, file = paste0("albemarle_homes_", date, ".csv"), 
           row.names = FALSE) 
 
+setwd("..")
 ## To run from command line
 
 # Note that Rscript is not by default in the PATH on Windows
